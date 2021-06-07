@@ -1,17 +1,10 @@
 package fcamara.controller.dto;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.persistence.Id;
 
 import fcamara.model.entity.Estacionamento;
-import fcamara.model.entity.TipoVeiculo;
-import fcamara.model.entity.Veiculo;
 
-public class EstacionamentoDto {
+public class RequisicaoRelatorioEstacionamentoDto {
 	
-	private String msg;
 	private String nome;
 	private String cnpj;
 	private String endereco;
@@ -19,11 +12,11 @@ public class EstacionamentoDto {
 	private int qtd_moto;
 	private int qtd_carro;
 	
-	public EstacionamentoDto() {
+	public RequisicaoRelatorioEstacionamentoDto() {
 		
 	}
 	
-	public EstacionamentoDto(Estacionamento estacionamento) {
+	public RequisicaoRelatorioEstacionamentoDto(Estacionamento estacionamento) {
 		this.nome = estacionamento.getNome();
 		this.cnpj = estacionamento.getCnpj();
 		this.endereco = estacionamento.getEndereco();
@@ -33,16 +26,6 @@ public class EstacionamentoDto {
 	}
 	
 	
-
-	
-	
-	public String getMsg() {
-		return msg;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
 
 	public String getNome() {
 		return nome;
@@ -68,9 +51,5 @@ public class EstacionamentoDto {
 		return qtd_carro;
 	}
 
-	public static List<EstacionamentoDto> converter(List<Estacionamento> estacionamentos) {
-		return estacionamentos.stream().map(EstacionamentoDto::new).collect(Collectors.toList());
-	}
-	
 	
 }
