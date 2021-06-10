@@ -13,12 +13,16 @@ import org.mockito.MockitoAnnotations;
 import fcamara.controller.dto.EstacionamentoDto;
 import fcamara.controller.form.EstacionamentoForm;
 import fcamara.model.entity.Estacionamento;
+import fcamara.model.repository.ControleRepository;
 import fcamara.model.repository.EstacionamentoRepository;
 
-class EstacionamentoServiceTest {
+public class EstacionamentoServiceTest {
 	
 	@Mock
 	EstacionamentoRepository repository;
+	
+	@Mock
+	ControleRepository controleRepository;
 	
 	private EstacionamentoService service;
 
@@ -27,7 +31,7 @@ class EstacionamentoServiceTest {
 	@BeforeEach
 	public void beforeEach() {
 		MockitoAnnotations.initMocks(this);
-		this.service = new EstacionamentoService(repository);
+		this.service = new EstacionamentoService(repository, controleRepository);
 		this.estacionamento1 = new Estacionamento("Estacionamento do Juca",
 				"12345678940789",
 				"Rua das pintangueiras, 114, SP",
@@ -73,6 +77,8 @@ class EstacionamentoServiceTest {
 	public void deveriaDeletarUmEstacionamento() {
 		Mockito.when(repository.findByCnpj("12345678940789"))
 		.thenReturn(this.estacionamento1);
+		Mockito.when(controleRepository.findByCnpj("12345678940789"))
+		.thenReturn(null);
 		String msg = service.deletar("12345678940789");
 		Assert.assertEquals("Estacionamento deletado com Sucesso!", msg);
 	}

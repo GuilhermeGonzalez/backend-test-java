@@ -6,18 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import fcamara.controller.dto.EstacionamentoDto;
 import fcamara.controller.form.EstacionamentoForm;
+import fcamara.model.entity.Controle;
 import fcamara.model.entity.Estacionamento;
+import fcamara.model.repository.ControleRepository;
 import fcamara.model.repository.EstacionamentoRepository;
 
 @Service
 public class EstacionamentoService {
 	
 	private EstacionamentoRepository estacionamentoRepository;
-	
+	private ControleRepository controleRepository;
 	
 	@Autowired
-	public EstacionamentoService(EstacionamentoRepository estacionamentoRepository) {
+	public EstacionamentoService(EstacionamentoRepository estacionamentoRepository, ControleRepository controleRepository) {
 		this.estacionamentoRepository = estacionamentoRepository;
+		this.controleRepository = controleRepository;
 	}
 
 
@@ -42,8 +45,11 @@ public class EstacionamentoService {
 	
 	public String deletar(String cnpj) {
 		Estacionamento estacionamento = estacionamentoRepository.findByCnpj(cnpj);
+		List<Controle> controle = controleRepository.findByCnpj(cnpj);
 		if(estacionamento == null) 
 			return "Estacionamento não encontrado!";
+		if(controle != null)
+			return "Não é possível deletar, estacionamento vinculado a um controle!";
 		estacionamentoRepository.deleteByCnpj(cnpj);
 		return "Estacionamento deletado com Sucesso!";
 	}
