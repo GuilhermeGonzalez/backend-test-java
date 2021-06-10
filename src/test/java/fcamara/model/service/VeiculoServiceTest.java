@@ -14,12 +14,16 @@ import fcamara.controller.dto.VeiculoDto;
 import fcamara.controller.form.VeiculoForm;
 import fcamara.model.entity.TipoVeiculo;
 import fcamara.model.entity.Veiculo;
+import fcamara.model.repository.ControleRepository;
 import fcamara.model.repository.VeiculoRepository;
 
 public class VeiculoServiceTest {
 	
 	@Mock
 	VeiculoRepository veiculoRepository;
+	
+	@Mock
+	ControleRepository controleRepository;
 	
 	private VeiculoService service;
 	
@@ -30,7 +34,7 @@ public class VeiculoServiceTest {
 	@BeforeEach
 	public void beforeEach() {
 		MockitoAnnotations.initMocks(this);
-		this.service = new VeiculoService(veiculoRepository);
+		this.service = new VeiculoService(veiculoRepository, controleRepository);
 		this.veiculo2 = new Veiculo("VOLKSWAGEN",
 				"GOLF GTI",
 				"PRETO",
@@ -82,6 +86,8 @@ public class VeiculoServiceTest {
 	public void deveriaDeletarUmVeiculo() {
 		Mockito.when(veiculoRepository.findByPlaca("ABC1D231"))
 		.thenReturn(this.veiculo2);
+		Mockito.when(controleRepository.findByPlaca("ABC1D231"))
+		.thenReturn(null);
 		String msg = service.deletar("ABC1D231");
 		Assert.assertEquals("Veiculo deletado com Sucesso!", msg);
 	}

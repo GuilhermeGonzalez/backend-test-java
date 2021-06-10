@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import fcamara.controller.dto.VeiculoDto;
 import fcamara.controller.form.VeiculoForm;
+import fcamara.model.entity.Controle;
 import fcamara.model.entity.Veiculo;
+import fcamara.model.repository.ControleRepository;
 import fcamara.model.repository.VeiculoRepository;
 
 @Service
@@ -15,11 +17,13 @@ public class VeiculoService {
 	
 	
 	private VeiculoRepository veiculoRepository;
+	private ControleRepository controleRepository;
 	
 	
 	@Autowired
-	public VeiculoService(VeiculoRepository veiculoRepository) {
+	public VeiculoService(VeiculoRepository veiculoRepository, ControleRepository controleRepository) {
 		this.veiculoRepository = veiculoRepository;
+		this.controleRepository = controleRepository;
 	}
 
 	public List<VeiculoDto> listar() {
@@ -41,8 +45,11 @@ public class VeiculoService {
 		
 	public String deletar(String placa) {
 		Veiculo veiculo = veiculoRepository.findByPlaca(placa);
+		List<Controle> controle = controleRepository.findByPlaca(placa);
 		if(veiculo == null) 
 			return "Veiculo não encontrado!";
+		if(controle != null)
+			return "Não é possível deletar, veiculo vinculado a um controle!";
 		veiculoRepository.deleteByPlaca(placa);
 		return "Veiculo deletado com Sucesso!";
 	}

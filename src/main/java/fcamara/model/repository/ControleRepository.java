@@ -13,7 +13,7 @@ public interface ControleRepository extends JpaRepository<Controle, Long>{
 
 	@Query("select c from Controle c join c.veiculo v where v.placa=:placa and c.datahora_saida = null")
 	Controle findByPlacaAndDatahoraSaidaNull(@Param("placa") String placa);
-
+	
 	@Query("select c from Controle c join c.estacionamento e where e.cnpj=:cnpj and c.datahora_saida = null")
 	List<Controle> findByCnpjAndDatahoraSaidaNull(@Param("cnpj") String cnpj);
 
@@ -22,5 +22,10 @@ public interface ControleRepository extends JpaRepository<Controle, Long>{
 
 	@Query("select c from Controle c join c.estacionamento e where e.cnpj=:cnpj and c.datahora_saida <> null")
 	List<Controle> findByCnpjAndDatahoraSaidaNotNull(String cnpj);
+	
+	@Query("select c from Controle c join c.veiculo v where v.placa=:placa")
+	List<Controle> findByPlaca(@Param("placa") String placa);
 
+	@Query("select c from Controle c join c.estacionamento e where e.cnpj=:cnpj")
+	List<Controle> findByCnpj(String cnpj);
 }
