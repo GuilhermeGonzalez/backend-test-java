@@ -17,6 +17,7 @@ Criar uma API REST para gerenciar um estacionamento de carros e motos.
 * [x] Desenvolvimento utilizando TDD;
 * [x] Criar uma solução de autenticação;
 * [x] Documentação da API usando Swagger;
+* [x] Deploy no Heroku;
 
   
 ## Tecnologias
